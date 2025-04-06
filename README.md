@@ -31,4 +31,4 @@ Default Options:
 * `AttachStacktrace`: `true`
 * `LogLevel`: `slog.LevelError`
 * `LogAddSource`: `true`
-* `LogExtraAttrs`: [defaultLogExtraAttr](log.go)
+* `LogExtraAttrs`: [defaultLogExtraAttrs](slog.go)
