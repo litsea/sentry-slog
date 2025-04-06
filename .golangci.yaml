@@ -214,16 +214,16 @@ formatters:
         # Default section: contains all imports that could not be matched to another section type.
         - default
         # Custom section: groups all imports with the specified Prefix.
-        - prefix(github.com/litsea/sentry)
+        - prefix(github.com/litsea/sentry-slog)
 
     gofumpt:
       # Module path which contains the source code being formatted.
       # Default: ""
-      module-path: github.com/litsea/sentry
+      module-path: github.com/litsea/sentry-slog
 
     goimports:
       # A list of prefixes, which, if set, checks import paths
       # with the given prefixes are grouped after 3rd-party packages.
       # Default: []
       local-prefixes:
-        - github.com/litsea/sentry
+        - github.com/litsea/sentry-slog
