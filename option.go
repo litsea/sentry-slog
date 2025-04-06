@@ -8,60 +8,58 @@ import (
 	slogsentry "github.com/samber/slog-sentry/v2"
 )
 
-type Option func(opt *sentry.ClientOptions)
+type Option func(opt *sentry.ClientOptions, _ *slogsentry.Option, _ *logConfig)
 
 func WithDSN(dsn string) Option {
-	return func(opt *sentry.ClientOptions) {
+	return func(opt *sentry.ClientOptions, _ *slogsentry.Option, _ *logConfig) {
 		opt.Dsn = dsn
 	}
 }
 
 func WithEnvironment(env string) Option {
-	return func(opt *sentry.ClientOptions) {
+	return func(opt *sentry.ClientOptions, _ *slogsentry.Option, _ *logConfig) {
 		opt.Environment = env
 	}
 }
 
 func WithAttachStacktrace(v bool) Option {
-	return func(opt *sentry.ClientOptions) {
+	return func(opt *sentry.ClientOptions, _ *slogsentry.Option, _ *logConfig) {
 		opt.AttachStacktrace = v
 	}
 }
 
 func WithRelease(rev string) Option {
-	return func(opt *sentry.ClientOptions) {
+	return func(opt *sentry.ClientOptions, _ *slogsentry.Option, _ *logConfig) {
 		opt.Release = rev
 	}
 }
 
 func WithDebug(v bool) Option {
-	return func(opt *sentry.ClientOptions) {
+	return func(opt *sentry.ClientOptions, _ *slogsentry.Option, _ *logConfig) {
 		opt.Debug = v
 	}
 }
 
-type LogOption func(lc *logConfig, opt *slogsentry.Option)
-
-func LogWithLevel(l slog.Level) LogOption {
-	return func(_ *logConfig, opt *slogsentry.Option) {
+func WithLogLevel(l slog.Level) Option {
+	return func(_ *sentry.ClientOptions, opt *slogsentry.Option, _ *logConfig) {
 		opt.Level = l
 	}
 }
 
-func LogWithAddSource(v bool) LogOption {
-	return func(_ *logConfig, opt *slogsentry.Option) {
+func WithLogAddSource(v bool) Option {
+	return func(_ *sentry.ClientOptions, opt *slogsentry.Option, _ *logConfig) {
 		opt.AddSource = v
 	}
 }
 
-func LogWithAttrFromContext(fns ...func(ctx context.Context) []slog.Attr) LogOption {
-	return func(_ *logConfig, opt *slogsentry.Option) {
+func WithLogAttrFromContext(fns ...func(ctx context.Context) []slog.Attr) Option {
+	return func(_ *sentry.ClientOptions, opt *slogsentry.Option, _ *logConfig) {
 		opt.AttrFromContext = fns
 	}
 }
 
-func LogWithExtraAttrs(attrs map[string]string) LogOption {
-	return func(lc *logConfig, _ *slogsentry.Option) {
+func WithLogExtraAttrs(attrs map[string]string) Option {
+	return func(_ *sentry.ClientOptions, _ *slogsentry.Option, lc *logConfig) {
 		lc.extraAttrs = attrs
 	}
 }

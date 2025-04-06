@@ -8,32 +8,20 @@ import (
 )
 
 var defaultLogExtraAttrs = map[string]string{
-	"log.handler": "litsea.sentry",
+	"log.handler": "litsea.sentry-slog",
 }
 
 type logConfig struct {
 	extraAttrs map[string]string
 }
 
-func NewLogHandler(hub *sentry.Hub, opts ...LogOption) slog.Handler {
-	o := &slogsentry.Option{
-		Hub:       hub,
-		Level:     slog.LevelError,
-		AddSource: true,
-	}
-
-	lc := &logConfig{
-		extraAttrs: defaultLogExtraAttrs,
-	}
-
-	for _, opt := range opts {
-		opt(lc, o)
-	}
+func newLogHandler(hub *sentry.Hub, so *slogsentry.Option, lc *logConfig) slog.Handler {
+	so.Hub = hub
 
 	attrs := make([]slog.Attr, 0, len(lc.extraAttrs))
 	for k, v := range lc.extraAttrs {
 		attrs = append(attrs, slog.String(k, v))
 	}
 
-	return o.NewSentryHandler().WithAttrs(attrs)
+	return so.NewSentryHandler().WithAttrs(attrs)
 }
