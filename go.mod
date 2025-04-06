@@ -1,4 +1,4 @@
-module github.com/litsea/sentry
+module github.com/litsea/sentry-slog
 
 go 1.24.0
 

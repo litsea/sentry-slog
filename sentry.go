@@ -2,17 +2,28 @@ package sentry
 
 import (
 	"fmt"
+	"log/slog"
 
 	"github.com/getsentry/sentry-go"
+	slogsentry "github.com/samber/slog-sentry/v2"
 )
 
-func New(opts ...Option) (*sentry.Hub, error) {
+func NewHandler(opts ...Option) (slog.Handler, error) {
 	o := &sentry.ClientOptions{
 		AttachStacktrace: true,
 	}
 
+	so := &slogsentry.Option{
+		Level:     slog.LevelError,
+		AddSource: true,
+	}
+
+	lc := &logConfig{
+		extraAttrs: defaultLogExtraAttrs,
+	}
+
 	for _, opt := range opts {
-		opt(o)
+		opt(o, so, lc)
 	}
 
 	hub := sentry.NewHub(nil, sentry.NewScope())
@@ -22,5 +33,6 @@ func New(opts ...Option) (*sentry.Hub, error) {
 	}
 
 	hub.BindClient(client)
-	return hub, nil
+
+	return newLogHandler(hub, so, lc), nil
 }

@@ -1,21 +1,25 @@
-# sentry
+# sentry-slog
 
 ## Usage
 
-### Init Sentry
-
 ```golang
 import (
+	"context"
 	"log"
+	"log/slog"
 
-	"github.com/litsea/sentry"
+	sentry "github.com/litsea/sentry-slog"
 )
 
-hub, err := sentry.New(
+h, err := sentry.NewHandler(
 	sentry.WithDSN("https://sentry-dsn"),
 	sentry.WithAttachStacktrace(true),
 	sentry.WithEnvironment("local"),
 	sentry.WithRelease("v0.1.0")
+	sentry.WithLogLevel(slog.LevelError),
+	sentry.WithLogAddSource(true),
+	sentry.WithLogAttrFromContext(func(ctx context.Context){ ... }),
+	sentry.WithLogExtraAttrs(map[string]string{ ... }),
 )
 if err != nil {
 	log.Fatal(err)
@@ -25,28 +29,6 @@ if err != nil {
 Default Options:
 
 * `AttachStacktrace`: `true`
-
-### Logger Handler
-
-```golang
-import (
-	"context"
-	"log/slog"
-
-	"github.com/litsea/sentry"
-)
-
-h := sentry.NewLogHandler(
-	hub,
-	sentry.LogWithLevel(slog.LevelError),
-	sentry.LogWithAddSource(true),
-	sentry.LogWithAttrFromContext(func(ctx context.Context){ ... }),
-	sentry.LogWithExtraAttrs(map[string]string{ ... }),
-)
-```
-
-Default Options:
-
-* `Level`: `slog.LevelError`
-* `AddSource`: `true`
-* `ExtraAttrs`: [defaultLogExtraAttr](log.go)
+* `LogLevel`: `slog.LevelError`
+* `LogAddSource`: `true`
+* `LogExtraAttrs`: [defaultLogExtraAttr](log.go)
