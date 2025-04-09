@@ -19,6 +19,7 @@ h, err := sentry.NewHandler(
 	sentry.WithLogLevel(slog.LevelError),
 	sentry.WithLogAddSource(true),
 	sentry.WithLogAttrFromContext(func(ctx context.Context){ ... }),
+	sentry.WithLogReplaceAttr(func(groups []string, a slog.Attr) slog.Attr { ... })
 	sentry.WithLogExtraAttrs(map[string]string{ ... }),
 )
 if err != nil {

@@ -54,12 +54,24 @@ func WithLogAddSource(v bool) Option {
 
 func WithLogAttrFromContext(fns ...func(ctx context.Context) []slog.Attr) Option {
 	return func(_ *sentry.ClientOptions, opt *slogsentry.Option, _ *logConfig) {
-		opt.AttrFromContext = fns
+		if len(fns) > 0 && fns[0] != nil {
+			opt.AttrFromContext = fns
+		}
+	}
+}
+
+func WithLogReplaceAttr(fns ...func(groups []string, a slog.Attr) slog.Attr) Option {
+	return func(_ *sentry.ClientOptions, opt *slogsentry.Option, _ *logConfig) {
+		if len(fns) > 0 && fns[0] != nil {
+			opt.ReplaceAttr = fns[0]
+		}
 	}
 }
 
 func WithLogExtraAttrs(attrs map[string]string) Option {
 	return func(_ *sentry.ClientOptions, _ *slogsentry.Option, lc *logConfig) {
-		lc.extraAttrs = attrs
+		if len(attrs) > 0 {
+			lc.extraAttrs = attrs
+		}
 	}
 }
