@@ -3,7 +3,7 @@ module github.com/litsea/sentry-slog
 go 1.24.0
 
 require (
-	github.com/getsentry/sentry-go v0.31.1
+	github.com/getsentry/sentry-go v0.32.0
 	github.com/samber/slog-sentry/v2 v2.9.3
 )
 
