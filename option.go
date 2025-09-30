@@ -68,6 +68,14 @@ func WithLogReplaceAttr(fns ...func(groups []string, a slog.Attr) slog.Attr) Opt
 	}
 }
 
+func WithSentryHub(hub *sentry.Hub) Option {
+	return func(_ *sentry.ClientOptions, _ *slogsentry.Option, lc *logConfig) {
+		if hub != nil {
+			lc.sentryHub = hub
+		}
+	}
+}
+
 func WithLogExtraAttrs(attrs map[string]string) Option {
 	return func(_ *sentry.ClientOptions, _ *slogsentry.Option, lc *logConfig) {
 		if len(attrs) > 0 {

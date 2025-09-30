@@ -8,8 +8,8 @@ require (
 )
 
 require (
-	github.com/samber/lo v1.49.1 // indirect
-	github.com/samber/slog-common v0.18.1 // indirect
-	golang.org/x/sys v0.32.0 // indirect
-	golang.org/x/text v0.24.0 // indirect
+	github.com/samber/lo v1.51.0 // indirect
+	github.com/samber/slog-common v0.19.0 // indirect
+	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/text v0.29.0 // indirect
 )
