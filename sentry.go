@@ -26,13 +26,16 @@ func NewHandler(opts ...Option) (slog.Handler, error) {
 		opt(o, so, lc)
 	}
 
-	hub := sentry.NewHub(nil, sentry.NewScope())
+	if lc.sentryHub == nil {
+		lc.sentryHub = sentry.NewHub(nil, sentry.NewScope())
+	}
+
 	client, err := sentry.NewClient(*o)
 	if err != nil {
 		return nil, fmt.Errorf("sentry.NewClient: %w", err)
 	}
 
-	hub.BindClient(client)
+	lc.sentryHub.BindClient(client)
 
-	return newLogHandler(hub, so, lc), nil
+	return newLogHandler(lc.sentryHub, so, lc), nil
 }

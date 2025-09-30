@@ -12,6 +12,7 @@ var defaultLogExtraAttrs = map[string]string{
 }
 
 type logConfig struct {
+	sentryHub  *sentry.Hub
 	extraAttrs map[string]string
 }
 
