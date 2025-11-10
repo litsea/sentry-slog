@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/getsentry/sentry-go v0.35.3
-	github.com/samber/slog-sentry/v2 v2.9.3
+	github.com/samber/slog-sentry/v2 v2.10.1
 )
 
 require (
